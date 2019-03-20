@@ -84,6 +84,8 @@ let getRepositioner = function( rule, cy ){
     }
     else if( r.type == "outside" ){
       return outsideBoxPosition( r );
+    } else if(r.type == "margined-viewport"){
+      return viewportPosition( cy, r );
     }
   } else {
     return r;
@@ -190,9 +192,15 @@ let outsideBoxPosition = function( bb ){
   };
 };
 
-let viewportPosition = function( cy ){
+let viewportPosition = function( cy, r ){
   return function( node ){
     let extent = cy.extent();
+    if(r != undefined){
+      extent.x1 = r.left == undefined ? extent.x1 : extent.x1 + r.left;
+      extent.y1 = r.top == undefined ? extent.y1 : extent.y1 + r.top;
+      extent.x2 = r.right == undefined ? extent.x2 : extent.x2 - r.right;
+      extent.y2 = r.bottom == undefined ? extent.y2 : extent.y2 - r.bottom;
+    }
     let w = node.outerWidth();
     let h = node.outerHeight();
     let bb = {

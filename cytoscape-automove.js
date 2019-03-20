@@ -186,6 +186,8 @@ var getRepositioner = function getRepositioner(rule, cy) {
       return boxPosition(r);
     } else if (r.type == "outside") {
       return outsideBoxPosition(r);
+    } else if (r.type == "margined-viewport") {
+      return viewportPosition(cy, r);
     }
   } else {
     return r;
@@ -300,9 +302,15 @@ var outsideBoxPosition = function outsideBoxPosition(bb) {
   };
 };
 
-var viewportPosition = function viewportPosition(cy) {
+var viewportPosition = function viewportPosition(cy, r) {
   return function (node) {
     var extent = cy.extent();
+    if (r != undefined) {
+      extent.x1 = r.left == undefined ? extent.x1 : extent.x1 + r.left;
+      extent.y1 = r.top == undefined ? extent.y1 : extent.y1 + r.top;
+      extent.x2 = r.right == undefined ? extent.x2 : extent.x2 - r.right;
+      extent.y2 = r.bottom == undefined ? extent.y2 : extent.y2 - r.bottom;
+    }
     var w = node.outerWidth();
     var h = node.outerHeight();
     var bb = {

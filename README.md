@@ -73,6 +73,7 @@ let defaults = {
   // - { x1, y1, x2, y2 } => constrain the node position within the bounding box (in model co-ordinates)
   // - { x1, y1, x2, y2, type: 'inside' } => constrain the node position within the bounding box (in model co-ordinates)
   // - { x1, y1, x2, y2, type: 'outside' } => constrain the node position outside the bounding box (in model co-ordinates)
+  // - { top, right, bottom, left, type: 'margined-viewport' } => keeps the node body within the defined marin around the viewport
   // - 'mean' => put the node in the average position of its neighbourhood
   // - 'viewport' => keeps the node body within the viewport
   // - 'drag' => matching nodes are effectively dragged along
